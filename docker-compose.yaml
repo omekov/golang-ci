@@ -1,0 +1,20 @@
+version: "2.3"
+services: 
+  nginx:
+    container_name: app_nginx
+    build: ./nginx
+    ports:
+      - "80:80"
+    volumes:
+      - ./www:var/www
+    depends_on: 
+      golang:
+        condition: service_healthy
+    environment: 
+      - ENV=${APP_MODE}
+  golang:
+    container_name: app_golang
+    build: .
+    volumes: 
+      - ./www:var/www
+    
