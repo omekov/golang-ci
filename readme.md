@@ -1,0 +1,1 @@
+docker-compose -f docker-compose.production.yaml -f docker-compose.test.yaml build --abort-on-container-exit --exit-code-from test

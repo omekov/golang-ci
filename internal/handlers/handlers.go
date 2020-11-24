@@ -11,7 +11,7 @@ import (
 // Mux - start http mux
 func Mux() http.Handler {
 	mux := http.NewServeMux()
-	port := getenv.GetVar("PORT", "80")
+	port := getenv.GetVar("PORT", "8081")
 	mux.HandleFunc("/health", healthy.HealthCheckHandler)
 	if err := http.ListenAndServe(":"+port, mux); err != nil {
 		log.Fatal(err)

@@ -1,0 +1,26 @@
+stages:
+  - build
+  - push
+  - test
+  - cleanup
+  - deploy
+
+build:
+  stage: build
+  script:
+  - docker build -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_COMMIT_REF_SLUG}_app_nginx.$CI_PIPELINE_ID ./nginx/
+  - docker build -t $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_COMMIT_REF_SLUG}_app_golang.$CI_PIPELINE_ID .
+
+push:
+  stage: push
+  before_script:
+    - docker login -u gitlab-ci-token -p $CI_BUILD_TOKEN $CI_REGISTRY
+  script:
+    - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_COMMIT_REF_SLUG}_app_nginx.$CI_PIPELINE_ID
+    - docker push $CI_REGISTRY/$CI_PROJECT_NAMESPACE/$CI_PROJECT_NAME:${CI_COMMIT_REF_SLUG}_app_golang.$CI_PIPELINE_ID
+
+test:
+  stage: test
+  image:
+    name: docker/compose:1.23.2
+    entrypoint: [""]

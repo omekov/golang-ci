@@ -3,18 +3,17 @@ services:
   nginx:
     container_name: app_nginx
     build: ./nginx
+    expose:
+      - "8080"
     ports:
-      - "80:80"
-    volumes:
-      - ./www:var/www
+      - '8080:8080'
     depends_on: 
-      golang:
-        condition: service_healthy
+      - golang
     environment: 
-      - ENV=${APP_MODE}
+      - ENV=${APP_MODE} 
   golang:
     container_name: app_golang
     build: .
-    volumes: 
-      - ./www:var/www
-    
+    environment: 
+      - ENV=${APP_MODE}
+      - PORT=${PORT}

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"os"
 
@@ -18,6 +19,7 @@ func heathCheck() {
 }
 
 func main() {
+	fmt.Print("stating server")
 	handlers.Mux()
 	heathCheck()
 }
